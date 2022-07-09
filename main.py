@@ -1,5 +1,6 @@
 # imports
 import datetime
+import os
 
 # variables
 logdatetime = datetime.datetime.now()
@@ -57,8 +58,34 @@ class color:
 def main():
     print("Prometheus Command Line Interface [Dev Build 1]")
     print()
-    print(color.fg.yellow,"\b$",color.reset, end="")
-    command = input(str())
+
+    while True:
+        print(color.fg.yellow,"\b$",color.reset, end="")
+        command = input(str()) 
+        commandToAnalise = list(command.split(" "))
+
+        if command in ["exit"]:
+
+            while True:
+                print(color.fg.red,"You want to save the logs? [y/n]")
+            
+                exitanswer = input("> ")
+                if exitanswer in ["y", "yes", "s", "si"]:
+                    break
+                elif exitanswer in ["n", "no"]:
+                    os.remove(logname)
+                    break
+                else:
+                    print("please try again")
+            break
+
+
+            log.write(f"{logdatetime} DEBUG: Prometheus Command Line Interface exited at {logdatetime}")
+        
+        elif command in ["clear", "cls"]:
+            os.system("clear")
+            log.write(f"{logdatetime} INFO: Command {command} executed successfully")
+
 
 # entry point
 
