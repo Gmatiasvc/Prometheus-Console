@@ -2,7 +2,7 @@
 This is a fun project, dont expect any epic coding skill, only for windows
 
 ## Current commands
-> exit
-> calc
-> clear
-> wiki
+* exit
+* calc
+* clear, cls
+* wiki, search, wiki
