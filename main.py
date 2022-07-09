@@ -139,6 +139,10 @@ def main():
                 try:
                     print (wikipedia.summary(commandToAnalise[1]))
                     log.write(f"{logdatetime} INFO: Command {command} executed successfully\n")
+                except wikipedia.exceptions.DisambiguationError as e:
+                    print("Try one of these options!")
+                    print(e.options)
+
                 except Exception:
                     print(color.fg.red,"Something went wrong, try another language or try being more specific, use \"_\" instead of spaces", color.reset)
 # entry point
