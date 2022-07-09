@@ -7,7 +7,7 @@ logdatetime = datetime.datetime.now()
 
 # setup and stuff
 logname = f"{logdatetime.strftime('%Y-%m-%d %H-%M-%S')}.log"
-log = open(logname, "w")
+log = open(f"logs/{logname}", "w")
 
 # classes
 class color:
@@ -71,20 +71,38 @@ def main():
             
                 exitanswer = input("> ")
                 if exitanswer in ["y", "yes", "s", "si"]:
+                    print(color.reset)
                     break
                 elif exitanswer in ["n", "no"]:
                     os.remove(logname)
+                    print(color.reset)
                     break
                 else:
                     print("please try again")
-            break
-
-
+            
             log.write(f"{logdatetime} DEBUG: Prometheus Command Line Interface exited at {logdatetime}")
+            break
         
         elif command in ["clear", "cls"]:
-            os.system("clear")
-            log.write(f"{logdatetime} INFO: Command {command} executed successfully")
+            os.system("cls")
+            log.write(f"{logdatetime} INFO: Command {command} executed successfully\n")
+        
+        elif commandToAnalise[0] == "calc":
+            
+            try:
+                print(f"{commandToAnalise[1]} = {eval(commandToAnalise[1])}")
+            except ZeroDivisionError:
+                print(color.fg.red,"Error ", color.reset ,"No es posible dividir entre cero, revisa la operacion.")
+                log.write(f"{logdatetime} ERROR: Prometheus Command Line Interface failed to evaluate \"{commandToAnalise[1]}\" due to ZeroDivisionError, command executed \"{command}\"\n")
+            except ArithmeticError:
+                print(color.fg.red, "Error ", color.reset, "Un error aritmetico ha ocurrido durante la resolucion del problema")
+                log.write(f"{logdatetime} ERROR: Prometheus Command Line Interface failed to evaluate \"{commandToAnalise[1]}\" due to ArithmeticError, command executed \"{command}\"\n")
+            except FloatingPointError:
+                print(color.fg.red, "Error ", color.reset, "Un error de punto flotante ha ocurrido durante la resolucion del problema")
+                log.write(f"{logdatetime} ERROR: Prometheus Command Line Interface failed to evaluate \"{commandToAnalise[1]}\" due to FloatingPointError, command executed \"{command}\"\n")
+            except Exception:
+                print(color.fg.red, "Error ", color.reset, "Un error de punto flotante ha ocurrido durante la evaluacion del problema")
+                log.write(f"{logdatetime} ERROR: Prometheus Command Line Interface failed to evaluate \"{commandToAnalise[1]}\" due to an unknown, command executed \"{command}\"\n")
 
 
 # entry point
@@ -92,5 +110,6 @@ def main():
 if __name__ == '__main__':
     pass
     log.write(f"{logdatetime} DEBUG: Prometheus Command Line Interface started at {logdatetime}\n")
-    log.close()
+    
     main()
+    log.close()
